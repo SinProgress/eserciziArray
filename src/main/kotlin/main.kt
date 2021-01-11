@@ -7,6 +7,7 @@ fun main() {
    println("le palindrome sono ${result2.joinToString("-")}")
     println(isPalindrome2("anna"))
     println(isPalindrome2("mela"))
+    println(isAnagrammaDeiPoveri("cane","gatto"))
 }
 /*
 fun anagrammiDi(p:Array<String>,t:String):MutableList<String>{
@@ -31,16 +32,34 @@ fun reverseString(s: String): String {
     s2.reverse()
     return s2.joinToString ("")
 }
-fun anagrammaDeiPoveri(){}
-
-fun isAnagrammaDeiPoveri(input:String,target:String):Boolean{
-    var mapTarget= mutableMapOf<Char,Int>()
-    for(c in target){
-        if(mapTarget.containsKey(c)) {
-            mapTarget[c]?.inc()
-        } else{
-        mapTarget.put(c,1)}
+fun anagrammaDeiPoveri(input:Array<String>,target:String):List<String>{
+    var listaAnagrammi= mutableListOf<String>()
+    for(s in input){
+        if(isAnagrammaDeiPoveri(s,target)){
+            listaAnagrammi.add(s)
+        }
     }
+    return listaAnagrammi
+}
+fun mappaStringa(input:String):Map<Char,Int>{
+    var mapTarget= mutableMapOf<Char,Int>()
+    for(c in input){
+        var old = mapTarget[c]
+        if( old == null) {
+            mapTarget[c] = 1
+        } else  {
+            mapTarget[c] = ++old
+        }
+    }
+    return mapTarget
+}
+fun isAnagrammaDeiPoveri(input:String,target:String):Boolean{
+    if(input.length!=target.length){
+        return false
+    }
+    val mapTarget=mappaStringa(target)
+    val mappaInput=mappaStringa(input)
+    return mapTarget==mappaInput
 }
 /*
 fun palindrome(p:Array<String>):MutableList<String>{
